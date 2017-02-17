@@ -10,36 +10,45 @@ http://go.microsoft.com/fwlink/p/?LinkID=260709
 
 * Make sure you have Linux headers installed
 * Run make:
+```
+[admin@playground src]$ make
+make -C /lib/modules/4.1.6-1-ARCH/build M=/home/admin/src modules
+make[1]: Entering directory '/usr/lib/modules/4.1.6-1-ARCH/build'
 
-     [admin@playground src]$ make
-    make -C /lib/modules/4.1.6-1-ARCH/build M=/home/admin/src modules
-    make[1]: Entering directory '/usr/lib/modules/4.1.6-1-ARCH/build'
-
-      CC [M]  /home/admin/src/vmgenid-test.o
-      Building modules, stage 2.
-      MODPOST 1 modules
-      CC      /home/admin/src/vmgenid-test.mod.o
-      LD [M]  /home/admin/src/vmgenid-test.ko
-    make[1]: Leaving directory '/usr/lib/modules/4.1.6-1-ARCH/build'
-
+  CC [M]  /home/admin/src/vmgenid-test.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/admin/src/vmgenid-test.mod.o
+  LD [M]  /home/admin/src/vmgenid-test.ko
+make[1]: Leaving directory '/usr/lib/modules/4.1.6-1-ARCH/build'
+```
 # Installing
 
 * Install the kernel module.  This must be run as root:
-    [admin@playground src]$ sudo insmod vmgenid-test.ko
+```
+[admin@playground src]$ sudo insmod vmgenid-test.ko
+```
 * Check that the module is running
-    [admin@playground src]$ lsmod | grep vmgenid
-    vmgenid_test           16384  0
+```
+[admin@playground src]$ lsmod | grep vmgenid
+vmgenid_test           16384  0
+```
 * Check that the VMGENID data was found in ACPI tables
-    [admin@playground src]$ dmesg | tail -2
-    [48852.399674] VMGENID ADDR method found
-    [48852.399939] VMGENID module registered
-
+```
+[admin@playground src]$ dmesg | tail -2
+[48852.399674] VMGENID ADDR method found
+[48852.399939] VMGENID module registered
+```
 # Using
 
 * See the current value of the VM Generation ID GUID
+```
 [admin@playground src]$ cat /sys/firmware/acpi/vmgenid/guid 
 fecb9643-d2c9-d6bf-2aa8-61818f4c1235
+```
 
 * See how many VM Generation ID ACPI notify events have been received.  Note that this is the number since the kernel module was installed, not necessarily overall
-    [admin@playground src]$ cat /sys/firmware/acpi/vmgenid/notices 
-    0
+```
+[admin@playground src]$ cat /sys/firmware/acpi/vmgenid/notices 
+0
+```
